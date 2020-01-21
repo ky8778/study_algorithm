@@ -1,3 +1,4 @@
+// 20200120
 // BJ1874 : https://www.acmicpc.net/problem/1874
 #include<stdio.h>
 

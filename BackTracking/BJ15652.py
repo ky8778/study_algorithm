@@ -1,4 +1,5 @@
-#! BJ15652 : https://www.acmicpc.net/problem/15652
+#! BJ1565# 20200120
+ : https://www.acmicpc.net/problem/15652
 N, M = tuple(map(lambda x: int(x),input().split(' ')))
 result = [0 for i in range(M)]
 
