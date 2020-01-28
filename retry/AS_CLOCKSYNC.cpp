@@ -86,6 +86,77 @@ int main(){
 }
 */
 
+//! 20200128 두번째 시도 정답!
+#include<cstdio>
+#include<vector>
+using namespace std;
+const int INF = 987654321;
+
+int inputClock[16];
+int C;
+vector<vector<int>> switchButton = {
+    {0,1,2},
+    {3,7,9,11},
+    {4,10,14,15},
+    {0,4,5,6,7},
+    {6,7,8,10,12},
+    {0,2,14,15},
+    {3,14,15},
+    {4,5,7,14,15},
+    {1,2,3,4,5},
+    {3,4,5,9,13}
+};
+
+void turnClock(int switchIdx){
+    int size = switchButton[switchIdx].size();
+    for(int i=0;i<size;i++){
+        int tmpIdx = switchButton[switchIdx][i]; 
+        inputClock[tmpIdx] += 3;
+        if(inputClock[tmpIdx] > 12) inputClock[tmpIdx] %= 12;
+    }
+}
+
+bool checkTime(){
+    bool result = true;
+    for(int i=0;i<16;i++){
+        if(inputClock[i]!=12){
+            result = false;
+            break;
+        }
+    }
+    return result; 
+}
+
+int getResult(int currentIdx,int currentNum){
+    int ret = INF;
+    if(checkTime()) return currentNum;
+    else if(currentIdx >= 10) return ret;
+    else{
+        for(int t=1;t<=4;t++){
+            turnClock(currentIdx);
+            int tmpResult = getResult(currentIdx + 1, currentNum + (t%4));
+            ret = tmpResult < ret ? tmpResult : ret;
+        }
+        return ret;
+    }
+}
+
+int main(){
+    scanf("%d",&C);
+    for(int c=0;c<C;c++){
+        for(int i=0;i<16;i++){
+            scanf("%d",&inputClock[i]);
+        }
+        
+        int result = getResult(0,0);
+        printf("%d\n",result<50?result:-1);
+
+        for(int i=0;i<16;i++){
+            inputClock[i] = 0;
+        }
+    }
+    return 0;
+}
 /*
 2
 12 6 6 6 6 6 12 12 12 12 12 12 12 12 12 12 
