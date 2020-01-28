@@ -1,6 +1,6 @@
 
 //! 20200128
-// TODO Dynamic Programming
+// TODO Divide & Conquer
 // BJ2630 : https://www.acmicpc.net/problem/2630
 #include<cstdio>
 
