@@ -1,4 +1,5 @@
 
+#! 20200129
 # TODO BJ2116 : https://www.acmicpc.net/problem/2116
 
 N = int(input())
