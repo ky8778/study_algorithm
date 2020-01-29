@@ -1,5 +1,6 @@
 
 //! 20200129
+//! Can solve just with Divide&Conquer
 // TODO Divide & Conquer + DP
 // BJ1629 : https://www.acmicpc.net/problem/1629
 #include<cstdio>
