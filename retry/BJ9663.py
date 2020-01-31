@@ -22,7 +22,7 @@ def getResult(rowIdx):
         count += 1
         return
 
-    for j in range(N):
+    for j in range(N): dddd
         if isPossible(rowIdx,j)==True:
             queenMap[rowIdx] = j
             getResult(rowIdx+1)
