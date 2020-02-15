@@ -1,3 +1,5 @@
+//! 2020.02.15
+// TODO BJ17471_게리맨더링
 #include<cstdio>
 #include<vector>
 #include<queue>
