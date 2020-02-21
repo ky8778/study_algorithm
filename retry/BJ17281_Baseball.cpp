@@ -1,4 +1,4 @@
-//! 2020.02.20
+//! 2020.02.20 ~ 2020.02.21
 // TODO BJ17281_Baseball
 #include<cstdio>
 using namespace std;
@@ -11,10 +11,10 @@ int orderP[NP];
 int Nru[4];
 
 void movePlayer(int hits) {
-	for (int i = 0; i < 3; i++) {
+	for (int i = 2; i >= 0 ; i--) {
 		if (Nru[i] != 0) {
 			int next = i + hits;
-			if (next > 3) next = 3;
+			if (next >= 3) next = 3;
 			Nru[i]--;
 			Nru[next]++;
 		}
@@ -33,7 +33,6 @@ int playGame() {
 			else movePlayer(inData[t][player]);
 			cur++;
 		}
-
 		thisRet += Nru[3];
 		for (int i = 0; i < 4; i++) {
 			Nru[i] = 0;
