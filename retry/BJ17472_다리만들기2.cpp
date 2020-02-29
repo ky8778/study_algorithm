@@ -11,18 +11,11 @@ const int dy[4] = {0,1,0,-1};
 int N,M;
 int inMap[MAX][MAX];
 bool checkMap[MAX][MAX];
+bool checkDist[7];
 int number;
 int myDist[7][7];
 queue <pair<int,int>> myQ;
-
-void print(){
-    for(int i=0;i<N;i++){
-        for(int j=0;j<M;j++){
-            printf("%d ",inMap[i][j]);
-        }
-        printf("\n");
-    }
-}
+vector <int> myV;
 
 bool inRange(int y,int x){
     if(y>=0&&x>=0&&y<N&&x<M) return true;
@@ -60,7 +53,8 @@ void getDistance(){
             if(inMap[i][j]!=0){
                 if(inMap[i][j]!=prev){
                     int next = inMap[i][j];
-                    myDist[prev][next] = j-prevIdx-1;
+                    int tmpDist = j-prevIdx-1;
+                    if(tmpDist >= 2) myDist[prev][next] = min(myDist[prev][next],tmpDist);
                     myDist[next][prev] = myDist[prev][next];
                     // printf("prev : %d, next : %d, dist : %d\n",prev,next,myDist[prev][next]);
                     prev = next;
@@ -72,11 +66,12 @@ void getDistance(){
     for(int j=0;j<M;j++){
         int prev = 0;
         int prevIdx = -1;
-        for(int i=0;i<N;j++){
+        for(int i=0;i<N;i++){
             if(inMap[i][j]!=0){
                 if(inMap[i][j]!=prev){
                     int next = inMap[i][j];
-                    myDist[prev][next] = i-prevIdx-1;
+                    int tmpDist = i-prevIdx-1;
+                    if(tmpDist>=2) myDist[prev][next] = min(myDist[prev][next],tmpDist);
                     myDist[next][prev] = myDist[prev][next];
                     // printf("prev : %d, next : %d, dist : %d\n",prev,next,myDist[prev][next]);
                     prev = next;
@@ -87,13 +82,43 @@ void getDistance(){
     }
 }
 
-int getMinDist(){
-    for(int i=1;i<=number;i++){
-        int minDist
+void init(){
+    for(int i=0;i<7;i++){
+        for(int j=0;j<7;j++){
+            myDist[i][j] = INF;
+        }
     }
 }
 
+int getMinDist(){
+    myV.push_back(1);
+    checkDist[1] = true;
+    int totalDist = 0;
+    while(myV.size()<number){
+        int minIdx = -1;
+        int minVal = INF;
+        for(int i=0;i<myV.size();i++){
+            for(int end=1;end<=number;end++){
+                int start = myV[i];
+                if(!checkDist[end]){
+                    if(myDist[start][end]<minVal){
+                        minVal = myDist[start][end];
+                        minIdx = end;
+                    }
+                }
+            }
+        }
+        if(minIdx<0) return -1;
+        myV.push_back(minIdx);
+        checkDist[minIdx] = true;
+        totalDist+=minVal;
+        // printf("minIdx : %d, minVal : %d, total : %d\n",minIdx,minVal,totalDist);
+    }
+    return totalDist;
+}
+
 int getResult(){
+    init();
     for(int i=0;i<N;i++){
         for(int j=0;j<M;j++){
             if(!checkMap[i][j] && inMap[i][j]==1){
@@ -103,9 +128,6 @@ int getResult(){
         }
     }
     getDistance();
-
-    // print();
-    // printf("number : %d\n",number);
     return getMinDist();
 }
 
