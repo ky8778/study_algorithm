@@ -1,5 +1,6 @@
 #! 2020.03.05
 # TODO SWEA1244_최대상금
+''' 조합으로 풀었는데 잘못된 풀이였다. 우연히 통과한 것임.
 T = int(input())
 
 def getSet():
@@ -27,3 +28,4 @@ for tc in range(1,T+1):
     getSet()
     numSet = len(mySet)
     print("#{0} {1}".format(tc,getResult(-1,0)))
+'''
