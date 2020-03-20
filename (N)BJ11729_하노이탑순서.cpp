@@ -80,3 +80,47 @@ int main(){
     return 0;
 }
 */
+
+//! 2020.03.21
+#include<cstdio>
+#include<vector>
+using namespace std;
+
+
+const int INF = 987654321;
+int N,K;
+vector <pair<int,int>> result;
+vector <int> inData[3];
+
+void move(int from,int to){
+    int idx = inData[from].size()-1;
+    int val = inData[from][idx];
+    inData[from].pop_back();
+    inData[to].push_back(val);
+    result.push_back(make_pair(from+1,to+1));
+}
+
+void getResult(int from, int to){
+    int mid = -1;
+    for(int i=0;i<3;i++){
+        if(mid != from && mid != to){
+            mid = i;
+            break;
+        }
+    }
+
+}
+
+int main(){
+    scanf("%d",&N);
+
+    for(int i=0;i<3;i++) inData[i].push_back(INF);
+    for(int i=N;i>0;i--) inData[0].push_back(i);
+
+    printf("%d\n",K);
+    for(int i=0;i<result.size();i++){
+        printf("%d %d\n",result[i].first,result[i].second);
+    }
+
+    return 0;
+}
