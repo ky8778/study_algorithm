@@ -1,4 +1,101 @@
 // TODO AS_GRADUATION
+//! 2020.03.25
+/* 정답 */
+#include<cstdio>
+using namespace std;
+
+const int INF = 987654321;
+const int MAX = 15;
+int N,K,M,L,T;
+// preLect[i] : i번째 과목의 선수과목의 집합
+int preLect[MAX];
+// Lect[i] : i번째 학기에 개설되는 과목의 집합
+int Lect[MAX];
+int DP[MAX][1<<MAX];
+// n의 이진수 표현에서 켜진 비트의 수를 반환
+int bitCount(int n){
+    int cnt = 0;
+    for(int i=0;i<N;i++){
+        if(n&(1<<i)) cnt++;
+    }
+    return cnt;
+}
+
+int getMin(int n1,int n2){
+    if(n1<n2) return n1;
+    else return n2;
+}
+// 이번 학기가 now이고, 지금까지 들은 과목이 set
+// k개 이상의 과목을 모두 들으려면 몇 학기나 더 있어야 하는가
+// 불가능하면 INF를 반환
+int getResult(int now, int set){
+    if(bitCount(set)>=K) return 0;
+    if(now>=M) return INF;
+    int& ret = DP[now][set];
+    if(ret!=-1) return ret;
+    ret = INF;
+    // 이번학기에 들을 수 있는 과목 중 아직 듣지 않은 과목
+    int canTake = (Lect[now] & ~set);
+    // 선수과목 듣지 않은 과목은 제거
+    for(int i=0;i<N;i++){
+        if((canTake & (1<<i)) && (set&preLect[i])!=preLect[i]){
+            canTake &= ~(1<<i);
+        }
+    }
+    // 모든 subset 순회
+    for(int sub = canTake; sub>0;sub=((sub-1)&canTake)){
+        // 한 학기 최대 과목은 L
+        if(bitCount(sub)>L) continue;
+        ret = getMin(ret, getResult(now+1,set|sub)+1);
+    }
+    // 휴학할 경우
+    ret = getMin(ret, getResult(now+1,set));
+    return ret;
+}
+
+void init(){
+    for(int i=0;i<N;i++){
+        int R;
+        scanf("%d",&R);
+        int num = 0;
+        for(int r=0;r<R;r++){
+            int prev;
+            scanf("%d",&prev);
+            num |= (1<<prev);
+        }
+        preLect[i] = num;
+    }
+    for(int i=0;i<M;i++){
+        int C;
+        scanf("%d",&C);
+        int num = 0;
+        for(int c=0;c<C;c++){
+            int current;
+            scanf("%d",&current);
+            num |= (1<<current);
+        }
+        Lect[i] = num;
+    }
+    for(int i=0;i<MAX;i++){
+        for(int j=0;j<(1<<MAX);j++){
+            DP[i][j] = -1;
+        }
+    }
+}
+
+int main(){
+    // freopen("input.txt","r",stdin);
+    scanf("%d",&T);
+    for(int t=0;t<T;t++){
+        scanf("%d %d %d %d",&N,&K,&M,&L);
+        init();
+        int result = getResult(0,0);
+        if(result>=INF) printf("IMPOSSIBLE\n");
+        else printf("%d\n",result);
+    }
+    return 0;
+}
+
 //! 2020.03.23
 //! 2020.03.25
 /* 오답
