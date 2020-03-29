@@ -77,3 +77,87 @@ int main(){
     return 0;
 }
 */
+
+//! 2020.03.29
+/* 오답
+#include<cstdio>
+#include<vector>
+using namespace std;
+
+const int MAX = 100050;
+const long long MOD = 20091101;
+int T,N,K;
+int D[MAX];
+int mySum[MAX];
+vector <int> count[MAX];
+int DP[MAX];
+
+int getSum(){
+    mySum[0] = 0;
+    for(int i=1;i<=N;i++){
+        mySum[i] = (mySum[i-1] + D[i]) % K;
+    }
+
+    for(int i=0;i<K;i++){
+        vector <int> empty;
+        count[i].swap(empty);
+    }
+    count[0].push_back(0);
+
+    for(int i=1;i<=N;i++){
+        count[mySum[i]].push_back(i);
+    }
+    
+    DP[0] = 0;
+    for(int i=1;i<=N;i++){
+        DP[i] = -1;
+    }
+    
+    int sum = 0;
+    for(int i=0;i<K;i++){
+        int c = count[i].size();
+        long long tmp = ((c*(c-1))/2)%MOD;
+        sum += (int)tmp;
+    }
+
+    return sum % (int)MOD;
+}
+
+int getMax(int n1,int n2){
+    if(n1>n2) return n1;
+    else return n2;
+}
+
+int getResult(int end){
+    int& ret = DP[end];
+    if(ret!=-1) return ret;
+    ret = 0;
+    if(D[end]%K==0) ret = getResult(end-1) + 1;
+    else{
+        ret = getResult(end-1);
+        int idx = mySum[end];
+        for(int i=count[idx].size()-1;i>=0;i--){
+            if(count[idx][i] < end){
+                ret = getMax(getResult(count[idx][i])+1,ret);
+                break;
+            }
+        }
+    }
+    return ret;
+}
+
+int main(){
+    // freopen("input.txt","r",stdin);
+    scanf("%d",&T);
+    for(int t=0;t<T;t++){
+        scanf("%d %d",&N,&K);
+        for(int n=1;n<=N;n++){
+            scanf("%d",&D[n]);
+        }
+        printf("%d ",getSum());
+        printf("%d\n",getResult(N));
+    }
+
+    return 0;
+}
+*/
