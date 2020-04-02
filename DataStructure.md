@@ -229,6 +229,69 @@ A[a,b] 에서 A[c,d]까지의 직사각형 구간의 합을 계산해야 하는 
 
 
 
+#### C++ STL, List
+
+자료 출처 : https://kswims.tistory.com/136
+
+STL에서 삽입, 삭제에 시간복잡도가 O(1)인 컨테이너는 List이다.
+
+중간에 데ㅔ이터 삽입이나 삭제가 자주 발생할 경우 사용하면 좋다.
+
+접근을 많이하는 경우에는 list보다 vector가 유리하다.
+
+
+
+##### Header
+
+```c++
+#include<list>
+```
+
+
+
+##### 선언
+
+```c++
+list<자료형> 변수명;
+list<자료형>::iterator 변수명;
+list<자료형>::reverse_iterator 변수명;
+list<자료형>::size_type 변수명;
+```
+
+
+
+##### 메소드
+
+| 메소드                     | 기능                                                         |
+| -------------------------- | ------------------------------------------------------------ |
+| begin() / end()            | list의 첫번째 위치 / 마지막 위치                             |
+| rbegin() / rend()          | list의 역방향 첫번째, 마지막.<br />reverse_iterator를 반환한다. |
+| push_front() / push_back() | 첫번째 / 마지막 위치에 데이터를 추가한다.                    |
+| pop_front() / pop_back()   | 첫번째 / 마지막 위치에 데이터를 삭제ㅔ한다.                  |
+| front(), back()            | 첫번째, 마지막 데이터 값을 반환한다.<br />iterator가 아니며 값을 복사해서 반환하는 것이다. |
+| clear()                    | 모든 데이터를 삭제한다.                                      |
+| insert(), erase()          | 원하는 위치에 데이터를 삽입 / 삭제한다.                      |
+| remove(val)                | val에 해당하는 모든 데이터를 삭제한다.                       |
+| sort(lambda function)      | Lambda function에 따라 정렬한다.<br />default는 오름차순 정렬이다. |
+
+추가 > splice() : 다른 list로부터 원소를 이어붙인다.
+
+```c++
+splice(붙일 위치, 가져올 컨테이너); // 가져오는 컨테이너의 모든 원소를 붙일 위치에 붙인다.
+splice(붙일 위치, 가져올 컨테이너, 가져올 원소위치); // 가져올 컨테이너의 가져올 위치의 원소를 붙일 위치에 붙인다.
+splice(붙일 위치, 가져올 컨테이너, x,y); // 붙일 위치에 가져올 컨테이너의 [x,y)의 원소를 붙인다.
+```
+
+
+
+##### 예시 코드
+
+```c++
+list<int> a;
+for(list<int>::iterator iter=a.begin(); iter!=a.end();iter++)
+  cout << *iter << endl;
+```
+
 
 
 
