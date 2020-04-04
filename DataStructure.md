@@ -321,3 +321,41 @@ for(list<int>::iterator iter=a.begin(); iter!=a.end();iter++)
 #### 동적 배열을 이용한 구현
 
 동적 배열과 index표시 (top / head,tail)을 이용한다.
+
+
+
+# 부가 공부 내용
+
+## 1. 선형 합동 난수 생성기 (Linear Congruential Random Number Genertaor)
+
+가장 잘 알려진 난수 생성 방법 중 하나로, 재귀적으로 다음과 같이 정의된다.
+
+X(n+1) = (aX(n) + c) mod m
+
+선형 합동 생성기의 상태는 바로 이전에 생성된 난수이며, 이 난수는 최대 m가지 경우가 있으므로 난수의 주기는 최대 m임이 자명하다. 하지만 대부분의 경우 이 주기는 훨씬 짧으며, 최대 주기를 갖기 위한 필요충분조건은 다음과 같다. (위키백과 선형합동생성기)
+
+1. c와 m이 서로소여야 한다.
+2. a-1이 m의 모든 소인수로 나눠져야 한다.
+3. m이 4의 배수일 경우, a-1도 4의 배수여야 한다.
+
+Seed = X(0)이라고 생각하면 되며 Visual Studio에서는
+
+m = 2^32, a = 214013 (0x343FD), c = 2531011(0x269EC3)을 사용한다.
+
+``` c++
+// AS_ITES에서 사용하는 선형 합동 난수 생성기
+struct RNG{
+  unsigned seed;
+  RNG() : seed(1983){}
+  unsigned next(){
+    unsigned ret = seed;
+    // unsigned 자료형을 사용해서 2^32로 나눌 필요가 없어졌다.
+    // (32비트를 사용하기 때문)
+    seed = ((seed * 214013u) + 2531011u);
+    return ret%10000 + 1;
+  }
+}
+```
+
+
+
