@@ -14,12 +14,12 @@ vector<int> getPartialMatch(const string& N){
     while(start + matched < size_N){
         if(N[start + matched] == N[matched]){
             matched++;
-            pi_table[start+matched-1] = matched;
+            pi_table[start + matched-1] = matched;
         }else{
             if(matched == 0) start++;
             else{
-                start += matched - pi_table[matched-1];
-                matched = pi_table[matched-1];
+                start += matched - pi_table[matched - 1];
+                matched = pi_table[matched - 1];
             }
         }
     }
