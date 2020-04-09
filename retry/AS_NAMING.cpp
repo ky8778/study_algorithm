@@ -1,4 +1,4 @@
-//! 2020.04.08
+//! 2020.04.08 ~ 09
 // TODO KMP https://www.algospot.com/judge/problem/read/NAMING
 #include<iostream>
 #include<string>
