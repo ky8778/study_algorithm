@@ -5,7 +5,7 @@
 #include<vector>
 
 using namespace std;
-string S,R;
+string S;
 
 vector<int> getPartialMatch(const string& s){
     int size_S = s.size();
@@ -26,15 +26,14 @@ vector<int> getPartialMatch(const string& s){
     return ret;
 }
 
-vector<int> KMP(const string& H, const string& N){
-    int size_H = H.size(), size_N = N.size();
+vector<int> KMP(const string& inS){
+    int size_S = inS.size();
     vector<int> ret;
-    vector<int> pi_table = getPartialMatch(N);
+    vector<int> pi_table = getPartialMatch(inS);
     int start = 0, matched = 0;
-    while(start <= size_H - size_N){
-        if(matched < size_N && H[start + matched] == N[matched]){
+    while(start <= size_S - 1){
+        if(matched < size_S && inS[start + matched] == inS[matched]){
             matched++;
-            if(matched == (size_N)) ret.push_back(start);
         }else{
             if(matched==0) start++;
             else{
@@ -42,6 +41,8 @@ vector<int> KMP(const string& H, const string& N){
                 matched = pi_table[matched-1]; 
             }
         }
+        // printf("start : %d, matched : %d\n",start,matched);
+        if(matched == size_S - start && matched != 0) ret.push_back(matched);
     }
     return ret;
 }
@@ -52,16 +53,11 @@ int main(){
     getline(cin,S2);
     S+=S1;
     S+=S2;
-    R+=S;
-
-    for(int i=0;i<S.size();i++){
-        R[i] = S[S.size()-i-1];
-    }
-    cout << S << endl;
-    cout << R << endl;
-    vector<int> result = KMP(R,S);
     
-    for(int i=0;i<result.size();i++){
+    // cout << S << endl;
+    vector<int> result = KMP(S);
+    
+    for(int i = result.size() - 1; i >= 0 ; i--){
         printf("%d ",result[i]);
     }
     printf("\n");
