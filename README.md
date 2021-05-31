@@ -15,7 +15,11 @@
   - SWEA
     - 삼성 SW expert academy 사이트의 문제 풀이들입니다.
 
-- 알고리즘 공부 정리
+- Algorithm
+  > 알고리즘 공부 정리
   - sortings.py : 정렬 알고리즘 구현파일입니다.
   - Dijkstra.cpp : 다익스트라 알고리즘 구현파일입니다.
 
+- DataStructure
+  > 자료구조 공부 정리
+  - LinkedList.py : Linked List 구현파일입니다.
