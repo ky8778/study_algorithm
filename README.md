@@ -23,3 +23,4 @@
 - DataStructure
   > 자료구조 공부 정리
   - LinkedList.py : Linked List 구현파일입니다.
+  - Tree.py : Tree 구현파일입니다.
