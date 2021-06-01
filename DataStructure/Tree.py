@@ -26,3 +26,20 @@ class BinarySearchTree(object):
         if current_node.right:
             ret.extend(self.traversalNode(current_node.right))
         return ret
+
+    def find(self, data):
+        if self.findNode(self.root, data):
+            return True
+        else:
+            return False
+
+    def findNode(self, current_node, data):
+        if current_node == None:
+            print("Tree doesn't have this data")
+            return False
+        elif current_node.data == data:
+            return current_node
+        elif current_node.data > data:
+            return self.findNode(current_node.left, data)
+        else:
+            return self.findNode(current_node.right, data)
