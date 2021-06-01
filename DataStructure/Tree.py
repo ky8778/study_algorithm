@@ -43,3 +43,21 @@ class BinarySearchTree(object):
             return self.findNode(current_node.left, data)
         else:
             return self.findNode(current_node.right, data)
+
+    def insert(self, data):
+        if self.root:
+            self.insertNode(self.root, data)
+        else:
+            self.makeRoot(data)
+
+    def insertNode(self, current_node, data):
+        if current_node.data > data:
+            if current_node.left:
+                self.insertNode(current_node.left, data)
+            else:
+                current_node.left = Node(data)
+        else:
+            if current_node.right:
+                self.insertNode(current_node.right, data)
+            else:
+                current_node.right = Node(data)
