@@ -61,3 +61,34 @@ class BinarySearchTree(object):
                 self.insertNode(current_node.right, data)
             else:
                 current_node.right = Node(data)
+
+    ''' need to update
+    def delete(self, key):
+        self.root, deleted = self.deleteValue(self.root, key)
+        return deleted
+
+    def deleteValue(self, node, key):
+        if not self.root:
+            return None, False
+
+        deleted = False
+        if key == node.data:
+            deleted = True
+            if node.left and node.right:
+                parent, child = node, node.right
+                while child.left is not None:
+                    parent, child = child, child.left
+                child.left = node.left
+                if parent != node:
+                    parent.left = child.right
+                    child.right = node.right
+                node = child
+            elif node.left or node.right:
+                node = node.left or node.right
+            
+        elif key < node.data:
+            node.left, deleted = self._delete_value(node.left, key)
+        else:
+            node.right, deleted = self._delete_value(node.right, key)
+        return node, deleted
+    '''
