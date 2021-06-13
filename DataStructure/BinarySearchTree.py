@@ -1,94 +1,121 @@
 class Node(object):
-    def __init__(self, data):
-        self.data = data
-        self.left = None
-        self.right = None
+  def __init__(self, data):
+    self.data = data
+    self.left = self.right = None
 
 class BinarySearchTree(object):
-    def __init__(self):
-        self.root = None
+  def __init__(self):
+    self.root = None
 
-    def makeRoot(self, data):
-        self.root = Node(data)
+  def traversal(self):
+    return self.traversalNode(self.root)
+    
+  def traversalNode(self, node):
+    ret = []
+    if node.left:
+      ret.extend(self.traversalNode(node.left))
+    ret.extend([node.data])
+    if node.right:
+      ret.extend(self.traversalNode(node.right))
+    return ret
 
-    def traversal(self):
-        if self.root:
-            return self.traversalNode(self.root)
+  def find(self, key):
+    return self.findNode(self.root, key)
+
+  def findNode(self, node, key):
+    if node == None:
+      print("Tree doesn't have this key")
+      return False, None
+    elif node.data == key:
+      return True, node.data
+    elif node.data > key:
+      return self.findNode(node.left, key)
+    else:
+      return self.findNode(node.right, key)
+
+  def insert(self, data):
+    if self.root:
+      self.insertNode(self.root, data)
+    else:
+      self.root = Node(data)
+
+  def insertNode(self, node, data):
+    if node.data > data:
+      if node.left:
+        self.insertNode(node.left, data)
+      else:
+        node.left = Node(data)
+    else:
+      if node.right:
+        self.insertNode(node.right, data)
+      else:
+        node.right = Node(data)
+  
+  def delete(self, key):
+    parent, node = self.root, self.root
+    while node is not None and node.data != key:
+      parent = node
+      if key < node.data:
+        node = node.left
+      # search right
+      elif key > node.data:
+        node = node.right
+
+    if node is None:
+      return False
+    else:
+      # case3. left child, right child exist
+      if node.left and node.right:
+        successor_parent, successor = node, node.right
+        # 1. find successor node at right subtree
+        while successor.left is not None:
+          successor_parent, successor = successor, successor.left
+        # 2. delete successor node
+        if successor.right:       # case2.
+          successor_parent.left = successor.right
+        else:                     # case1.
+          successor_parent.left = None
+        # 3. move successor node to delete node
+        if parent.right == node:
+          parent.right = successor
         else:
-            print("Tree is empty")
-            return []
-
-    def traversalNode(self, current_node):
-        ret = []
-        if current_node.left:
-            ret.extend(self.traversalNode(current_node.left))
-            ret.extend([current_node.data])
-        if current_node.right:
-            ret.extend(self.traversalNode(current_node.right))
-        return ret
-
-    def find(self, data):
-        if self.findNode(self.root, data):
-            return True
+          parent.left = successor
+        successor.left, successor.right = node.left, node.right
+        
+      # case2. left or right only one child exist
+      elif node.left or node.right:
+        # connect parent - child
+        if parent.right == node:
+          parent.right = node.left or node.right
         else:
-            return False
-
-    def findNode(self, current_node, data):
-        if current_node == None:
-            print("Tree doesn't have this data")
-            return False
-        elif current_node.data == data:
-            return current_node
-        elif current_node.data > data:
-            return self.findNode(current_node.left, data)
+          parent.left = node.left or node.right
+      # case1. child not exist
+      else:
+        if parent.right == node:
+          parent.right = None
         else:
-            return self.findNode(current_node.right, data)
+          parent.left = None
+      return True
 
-    def insert(self, data):
-        if self.root:
-            self.insertNode(self.root, data)
-        else:
-            self.makeRoot(data)
 
-    def insertNode(self, current_node, data):
-        if current_node.data > data:
-            if current_node.left:
-                self.insertNode(current_node.left, data)
-            else:
-                current_node.left = Node(data)
-        else:
-            if current_node.right:
-                self.insertNode(current_node.right, data)
-            else:
-                current_node.right = Node(data)
+array = [7, 4, 2, 3, 5, 17, 13, 15, 40, 30, 25, 27, 35, 50, 55, 52]
+bst = BinarySearchTree()
 
-    ''' need to update
-    def delete(self, key):
-        self.root, deleted = self.deleteValue(self.root, key)
-        return deleted
+for x in array:
+  bst.insert(x)
+print(bst.traversal())
 
-    def deleteValue(self, node, key):
-        if not self.root:
-            return None, False
+# Find
+print(bst.find(15)) # True
+print(bst.find(17)) # True
 
-        deleted = False
-        if key == node.data:
-            deleted = True
-            if node.left and node.right:
-                parent, child = node, node.right
-                while child.left is not None:
-                    parent, child = child, child.left
-                child.left = node.left
-                if parent != node:
-                    parent.left = child.right
-                    child.right = node.right
-                node = child
-            elif node.left or node.right:
-                node = node.left or node.right
-            
-        elif key < node.data:
-            node.left, deleted = self._delete_value(node.left, key)
-        else:
-            node.right, deleted = self._delete_value(node.right, key)
-        return node, deleted
-    '''
+# Delete
+print(bst.delete(3)) # True
+print(bst.delete(3)) # True
+print(bst.traversal())
+
+print(bst.delete(50)) # True
+print(bst.traversal())
+
+print(bst.delete(17)) # True
+print(bst.traversal())
