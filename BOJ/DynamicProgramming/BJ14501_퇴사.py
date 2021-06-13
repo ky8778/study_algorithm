@@ -2,35 +2,32 @@
 # 2021.06.12
 
 def DFS(table, memo, today, N):
-    if today >= N:
+    if today > N:
         return 0
 
     if memo[today] >= 0:
         return memo[today]
     else:
-        # can't work
-        if today + table[today][0] > N:
-            memo[today] = 0
         # can work
-        else:
+        if today + table[today][0] - 1 <= N:
             ret = 0
-            for i in range(today + table[today][0], N):
+            for i in range(today + table[today][0], N+1):
                 ret = max(ret, DFS(table, memo, i, N))
             memo[today] = table[today][1] + ret
+        # can't work
+        else:
+            memo[today] = 0
+            
         return memo[today]
 
-def getResult(table, memo, N):
-    ret = 0
-    for start in range(N):
-        ret = max(ret, DFS(table, memo, start, N))
-    return ret
-
 N = int(input())
-table = [tuple(map(int, input().split())) for _ in range(N)]
-memo = [-1 for _ in range(N)]
+table = []
+table.append((1, 0))
+memo = [-1] * (N+1)
+for _ in range(N):
+    table.append(tuple(map(int, input().split())))
 # print(table)
-print(getResult(table, memo, N))
-# print(memo)
+print(DFS(table, memo, 0, N))
 
 '''
 input / output
