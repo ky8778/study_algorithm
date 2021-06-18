@@ -2,7 +2,7 @@
 from queue import PriorityQueue
 
 # constants
-INF = float(inf)
+INF = float('inf')
 
 # start : start node number, V : number of nodes
 def dijkstra(input_map, start, V):
