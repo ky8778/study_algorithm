@@ -1,10 +1,13 @@
+''' Dijkstra with PriorityQueue '''
 # imports
 from queue import PriorityQueue
 
 # constants
 INF = float('inf')
 
-# start : start node number, V : number of nodes
+# input_map : node, edge info
+# start : start node number
+# V : number of nodes
 def dijkstra(input_map, start, V):
     dist = [INF] * V
     dist[start] = 0
@@ -25,5 +28,29 @@ def dijkstra(input_map, start, V):
                 if dist[next] > next_dist:
                     dist[next] = next_dist
                     pq.put((-next_dist, next))
+
+    return dist
+
+''' Dijkstra with array '''
+def dijkstra(input_map, start, V):
+    dist = [INF] * V
+    visited = [False] * V
+
+    while True:
+        min_dist = INF
+        here = start        
+        for i in range(V):
+            if dist[i] < min_dist and not visited[i]:
+                start = i
+                min_dist = dist[i]
+        if min_dist == INF:
+            break
+        visited[here] = True
+        for i in range(len(input_map[i])):
+            next = input_map[i][0]
+            if visited[next]:
+                continue
+            next_dist = dist[here] + input_map[here][i][1]
+            dist[next] = min(dist[next], next_dist)
 
     return dist
